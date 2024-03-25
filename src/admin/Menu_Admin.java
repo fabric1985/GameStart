@@ -46,6 +46,11 @@ public class Menu_Admin {
                     break;
                 case 3:
                     System.out.println("Total Profit");
+                    try {
+                        totalProfit("catalogue/GameStart_Vendas.csv", "catalogue/GameStart_Categorias.csv");
+                    } catch (FileNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
                 case 4:
                     System.out.println("Customer Search");

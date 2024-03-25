@@ -37,12 +37,7 @@ public class Main {
                         newUser();
                         break;
                     }
-                    System.out.println("Enter your Username: ");
-                    Scanner userClient = new Scanner(System.in);
-                    String usernameClient = input.next();
-                    Scanner passClient = new Scanner(System.in);
-                    System.out.println("Enter your Password: ");
-                    String passwordClient = input.next();
+                    System.out.println("Menu user ");
                     /*Create a function to go to the customers menu*/
 
                     break;

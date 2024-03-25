@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.function.DoubleToIntFunction;
+
 import static admin.Menu_Admin.*;
 
 public class Functions_Admin {
@@ -16,15 +18,16 @@ public class Functions_Admin {
         while (readFile.hasNextLine()) {
             String line = readFile.nextLine();
             String[] itemsOfLine = line.split(";");
-            if (user.equals(itemsOfLine[0]) && password.equals(itemsOfLine[1])) {
+            for (int i = 0; i < itemsOfLine.length; i++){
+                if(user.equals(itemsOfLine[i]) && password.equals(itemsOfLine[1])) {
                 System.out.println("Login successfully");
                 System.out.println();
                 menuAdmin();
                 break;
-            } else {
-                System.out.println("Invalid Login");
+            }
             }
         }
+        System.out.println("Invalid Login");
     }
     /*----> Function that has the menu with file consultation options <----*/
     public static void fileConsultation(){
@@ -51,7 +54,7 @@ public class Functions_Admin {
                     System.out.println("=======================================================");
                     System.out.println();
                     try {
-                        informationFile("catalogue/GameStart_Vendas.csv");
+                        printInformationFile(informationFile("catalogue/GameStart_Vendas.csv"));
                     } catch (FileNotFoundException e) {
                         throw new RuntimeException(e);
                     }
@@ -62,7 +65,7 @@ public class Functions_Admin {
                     System.out.println("=======================================================");
                     System.out.println();
                     try {
-                        informationFile("catalogue/GameStart_Clientes.csv");
+                        printInformationFile(informationFile("catalogue/GameStart_Clientes.csv"));
                     } catch (FileNotFoundException e) {
                         throw new RuntimeException(e);
                     }
@@ -73,7 +76,7 @@ public class Functions_Admin {
                     System.out.println("=======================================================");
                     System.out.println();
                     try {
-                        informationFile("catalogue/GameStart_Categorias.csv");
+                        printInformationFile(informationFile("catalogue/GameStart_Categorias.csv"));
                     } catch (FileNotFoundException e) {
                         throw new RuntimeException(e);
                     }
@@ -112,7 +115,7 @@ public class Functions_Admin {
         Scanner readFile = new Scanner(new File(path));
         String header = readFile.nextLine();
 
-        int cols = header.split(",").length;
+        int cols = header.split(";").length;
 
         String[][] matrixFileInformation = new String[lines-1][cols];
         String line;
@@ -120,19 +123,28 @@ public class Functions_Admin {
 
         while (readFile.hasNextLine()) {
             line = readFile.nextLine();
-            String[] lineItems = line.split(",");
+            String[] lineItems = line.split(";");
 
             for(int k = 0; k < cols; k++) {
                 matrixFileInformation[counter][k] = lineItems[k];
-                System.out.println(matrixFileInformation[counter][k]);
             }
             counter++;
+
         }
 
-       /* for(int i = 0; i < matrixFileInformation.length;i++){
-            System.out.println(matrixFileInformation[i][0]+" | "+matrixFileInformation[i][1]+" | "+matrixFileInformation[i][2]+" | "+matrixFileInformation[i][3]+" | "+matrixFileInformation[i][4]+" | "+matrixFileInformation[i][5]);
-        }*/
         return matrixFileInformation;
+    }
+
+    /*----> Function that only prints the file <----*/
+    public static void printInformationFile(String[][] matrixFileInformation){
+
+        for (int i = 0; i < matrixFileInformation.length; i++) {
+            for (int k = 0; k < matrixFileInformation[0].length; k++) {
+                System.out.print(matrixFileInformation[i][k] + "\t|\t");
+            }
+            System.out.println();
+        }
+
     }
 
     public static void salesInformation(String path) throws FileNotFoundException {
@@ -147,9 +159,46 @@ public class Functions_Admin {
             count ++;
         }
 
+        System.out.println();
         System.out.println(count+" sales were made.");
         System.out.println("The total sales value was $"+sum);
 
     }
+
+    public static void totalProfit(String path1, String path2 ) throws FileNotFoundException {
+
+        String[][] informationSales = informationFile(path1);
+        String[][] informationCategories = informationFile(path2);
+        double sum = 0.0;
+
+        for (int i = 0; i < informationSales.length; i++) {
+            System.out.println(informationSales[i][3]);
+            System.out.println(informationSales[i][5]);
+            if(informationSales[i][3] == informationCategories[i][0]){
+                sum += Double.parseDouble(informationSales[i][5]);
+            }
+
+
+            /*for (int k = 0; k < informationSales[0].length; k++) {
+                System.out.print(informationSales[i][k] + "\t|\t");
+            }
+            System.out.println();*/
+        }
+        System.out.println(sum);
+
+       /* for (int i = 0; i < informationCategories.length; i++) {
+            for (int k = 0; k < informationCategories[0].length; k++) {
+                System.out.print(informationCategories[i][k] + "\t|\t");
+            }
+            System.out.println();
+        }*/
+
+
+
+
+
+
+    }
+
 
 }
