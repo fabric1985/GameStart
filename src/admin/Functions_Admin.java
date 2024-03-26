@@ -169,34 +169,36 @@ public class Functions_Admin {
 
         String[][] informationSales = informationFile(path1);
         String[][] informationCategories = informationFile(path2);
+
+        String [] totalForCategories = new String[informationCategories.length];
+        double [] valuesTotalMarginOfCategories = new double[informationCategories.length];
         double sum = 0.0;
+        int count = 0;
 
-        for (int i = 0; i < informationSales.length; i++) {
-            System.out.println(informationSales[i][3]);
-            System.out.println(informationSales[i][5]);
-            if(informationSales[i][3] == informationCategories[i][0]){
-                sum += Double.parseDouble(informationSales[i][5]);
+
+        /*Loop coloca as categorias num array*/
+        for (int i = 0; i < informationCategories.length; i++) {
+            totalForCategories[i] = informationCategories[i][0];
             }
 
+        while(count < totalForCategories.length){
 
-            /*for (int k = 0; k < informationSales[0].length; k++) {
-                System.out.print(informationSales[i][k] + "\t|\t");
+            for (int i = 0 ; i < informationSales.length; i++){
+                if(informationSales[i][3].equalsIgnoreCase(totalForCategories[count])){
+                    sum += Double.parseDouble(informationSales[i][5]);
+                }
             }
-            System.out.println();*/
+            double margin = Double.parseDouble(informationCategories[count][1])/100;
+            valuesTotalMarginOfCategories[count] = sum * margin;
+
+            count++;
+            sum = 0.0;
         }
-        System.out.println(sum);
 
-       /* for (int i = 0; i < informationCategories.length; i++) {
-            for (int k = 0; k < informationCategories[0].length; k++) {
-                System.out.print(informationCategories[i][k] + "\t|\t");
-            }
-            System.out.println();
-        }*/
-
-
-
-
-
+        /*Os dados do array totalForCategories e valuesTotalMarginOfCategories, estão ligados pelo index*/
+        for(int i = 0; i < totalForCategories.length; i++){
+            System.out.println("Categoria: "+totalForCategories[i]+"| VALOR: "+ valuesTotalMarginOfCategories[i]);
+        }
 
     }
 

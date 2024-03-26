@@ -6,9 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="4c026ef1-e45e-41ec-978a-0cb74459f0dd" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/admin/Functions_Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/admin/Functions_Admin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/admin/Menu_Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/admin/Menu_Admin.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +22,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
@@ -42,7 +43,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Fabricio/Documents/GameStart",
+    "last_opened_file_path": "C:/Users/softdev/Desktop/CESAE-2024/Fichas_Java",
     "settings.editor.selected.configurable": "preferences.lookFeel"
   }
 }]]></component>
