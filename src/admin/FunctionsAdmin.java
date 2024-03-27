@@ -2,6 +2,7 @@ package admin;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.sql.SQLOutput;
 import java.util.Scanner;
 
 import static admin.MenuAdmin.*;
@@ -164,6 +165,7 @@ public class FunctionsAdmin {
         System.out.println("The total profit based on the appropriate percentages was $"+sum);
         System.out.println("=======================================================");
 
+
     }
 
     public static void customerSearch() throws FileNotFoundException {
@@ -200,6 +202,9 @@ public class FunctionsAdmin {
         }
 
         System.out.println("The most expensive is: "+nameGameMoreExpensive);
+        System.out.println();
+        System.out.println("List of customers who purchased the game: ");
+        System.out.println();
 
         for (int i = 0; i < salesInformation.length; i++) {
             double price = Double.parseDouble(salesInformation[i][5]);
@@ -211,5 +216,190 @@ public class FunctionsAdmin {
             }
         }
     }
+
+    public static void theBestCustomer() throws FileNotFoundException {
+        String[][] informationSales = readSales();
+        String[][] informationClients = readClients();
+
+        String [] listOfClients = new String[informationClients.length];
+        double [] valuesTotalByClients = new double[informationClients.length];
+        double sum = 0.0;
+        int count = 0;
+
+        /*This loop puts the clients in an array*/
+        for (int i = 0; i < informationClients.length; i++) {
+            listOfClients[i] = informationClients[i][0];
+        }
+
+        /*This loop goes through the list of all customers*/
+        while(count < listOfClients.length){
+
+            /*This loop through all lines of the file informationSales*/
+            for (int i = 0 ; i < informationSales.length; i++){
+                if(informationSales[i][1].equalsIgnoreCase(listOfClients[count])){
+                    sum += Double.parseDouble(informationSales[i][5]);
+                }
+            }
+            valuesTotalByClients[count] = sum;
+
+            count++;
+            sum = 0.0;
+        }
+
+        /*Here we find the customer who bought the most games and their name*/
+        Double biggest = 0.0;
+        String theBestClient = "";
+
+        for(int i = 0; i < valuesTotalByClients.length;i++){
+            if(biggest < valuesTotalByClients[i]){
+                biggest = valuesTotalByClients[i];
+                theBestClient = listOfClients[i];
+
+            }
+        }
+
+        String[] client = getClientByID(Integer.parseInt(theBestClient));
+        System.out.println("Name: "+ client[1]+"|\nPhone: "+client[2]+"|\nEmail: "+client[3]+"|\nAmount: "+biggest);
+
+        System.out.println();
+        System.out.println("List of purchased game: ");
+        System.out.println();
+        for (int i = 0 ; i < informationSales.length; i++){
+            if(informationSales[i][1].equalsIgnoreCase(theBestClient)){
+                System.out.println(informationSales[i][4]);
+            }
+        }
+
+    }
+
+    public static void bestCategory() throws FileNotFoundException {
+
+        String[][] informationSales = readSales();
+        String[][] informationCategories = readCategories();
+
+        String [] totalForCategories = new String[informationCategories.length];
+        double [] valuesTotalMarginOfCategories = new double[informationCategories.length];
+        double sum = 0.0;
+        int count = 0;
+
+
+        /*This loop puts the categories in an array*/
+        for (int i = 0; i < informationCategories.length; i++) {
+            totalForCategories[i] = informationCategories[i][0];
+        }
+
+        while(count < totalForCategories.length){
+
+            for (int i = 0 ; i < informationSales.length; i++){
+                if(informationSales[i][3].equalsIgnoreCase(totalForCategories[count])){
+                    sum += Double.parseDouble(informationSales[i][5]);
+                }
+            }
+            double margin = Double.parseDouble(informationCategories[count][1])/100;
+            valuesTotalMarginOfCategories[count] = sum * margin;
+
+            count++;
+            sum = 0.0;
+
+        }
+
+        Double biggest = 0.0;
+        String theBestCategory = "";
+
+        for(int i = 0; i < valuesTotalMarginOfCategories.length;i++){
+            if(biggest < valuesTotalMarginOfCategories[i]){
+                biggest = valuesTotalMarginOfCategories[i];
+                theBestCategory = totalForCategories[i];
+
+            }
+        }
+
+        System.out.println(theBestCategory);
+        System.out.println(biggest);
+    }
+
+    public static void searchForGameSold() throws FileNotFoundException {
+        String[][] informationSales = readSales();
+        String[] nameGame = new String[1];
+        boolean found = false;
+
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter a name of game you would like to search: ");
+        nameGame[0] = input.nextLine();
+
+        System.out.println();
+        System.out.println("Customers who purchased the game: "+nameGame[0]);
+        System.out.println();
+        for (int i = 0; i < informationSales.length; i++) {
+            if(nameGame[0].equalsIgnoreCase(informationSales[i][4])){
+                found = true;
+                String[] client = getClientByID(Integer.parseInt(informationSales[i][1]));
+                System.out.println("Name: "+ client[1]+"|\nPhone: "+client[2]+"|\nEmail: "+client[3]);
+                System.out.println();
+            }
+        }
+        if(found == false){
+            System.out.println("Game not exist in the file");
+        }
+
+
+    }
+
+    public static void top5Games() throws FileNotFoundException {
+
+        String[][] informationSales = readSales();
+        String[][] informationCategories = readCategories();
+
+        String [] totalForCategories = new String[informationCategories.length];
+        String[][] totalProfitFromEachGame = new String[informationSales.length][2];
+        double sum = 0.0;
+        int count = 0;
+
+
+        /*This loop puts the categories in an array*/
+        for (int i = 0; i < informationCategories.length; i++) {
+            totalForCategories[i] = informationCategories[i][0];
+
+        }
+
+        while(count < totalForCategories.length){
+            for (int i = 0 ; i < informationSales.length; i++){
+                if(informationSales[i][3].equalsIgnoreCase(totalForCategories[count])){
+                    totalProfitFromEachGame[i][0] = informationSales[i][4];
+                }
+            }
+
+            /*totalProfitFromEachGame[count][0] = informationSales [count][4];
+            totalProfitFromEachGame[count][1] = Double.toString(sum);*/
+
+
+           /* double margin = Double.parseDouble(informationCategories[count][1])/100;
+            double values = sum * margin;
+            totalProfitFromEachGame[count][count] = informationSales[0][4];
+            totalProfitFromEachGame[count][count + 1] = values;
+            count++;
+            sum = 0.0;
+        }
+
+        for(int i = 0; i < totalForCategories.length; i++){
+            System.out.println("Categoria: "+totalForCategories[i]+"| VALOR: "+ valuesTotalMarginOfCategories[i]);
+            sum += valuesTotalMarginOfCategories[i];
+
+        }*/
+            count++;
+            sum = 0.0;
+
+        }
+
+        for(int i = 0; i < totalProfitFromEachGame.length; i++){
+            for(int k = 0; k < totalProfitFromEachGame[i].length; k++ ){
+                System.out.println(totalProfitFromEachGame[i][0]);
+            }
+        }
+
+    }
+
+
+
 
 }

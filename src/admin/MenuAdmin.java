@@ -69,16 +69,36 @@ public class MenuAdmin {
                     }
                     break;
                 case 6:
-                    System.out.println("Best Customers");
+                    System.out.println("The best customer");
+                    try {
+                        theBestCustomer();
+                    } catch (FileNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
                 case 7:
                     System.out.println("Best Category");
+                    try {
+                        bestCategory();
+                    } catch (FileNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
                 case 8:
-                    System.out.println("Search for Sales");
+                    System.out.println("Search for Game Sold ");
+                    try {
+                        searchForGameSold();
+                    } catch (FileNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
                 case 9:
                     System.out.println("Top 5 Games");
+                    try {
+                        top5Games();
+                    } catch (FileNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
                 case 10:
                     System.out.println("Bottom 5 Games");
