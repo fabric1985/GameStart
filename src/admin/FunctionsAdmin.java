@@ -347,59 +347,9 @@ public class FunctionsAdmin {
 
     public static void top5Games() throws FileNotFoundException {
 
-        String[][] informationSales = readSales();
-        String[][] informationCategories = readCategories();
-
-        String [] totalForCategories = new String[informationCategories.length];
-        String[][] totalProfitFromEachGame = new String[informationSales.length][2];
-        double sum = 0.0;
-        int count = 0;
+        String[] games = getGames();
 
 
-        /*This loop puts the categories in an array*/
-        for (int i = 0; i < informationCategories.length; i++) {
-            totalForCategories[i] = informationCategories[i][0];
-
-        }
-
-        while(count < totalForCategories.length){
-            for (int i = 0 ; i < informationSales.length; i++){
-                if(informationSales[i][3].equalsIgnoreCase(totalForCategories[count])){
-                    totalProfitFromEachGame[i][0] = informationSales[i][4];
-                }
-            }
-
-            /*totalProfitFromEachGame[count][0] = informationSales [count][4];
-            totalProfitFromEachGame[count][1] = Double.toString(sum);*/
-
-
-           /* double margin = Double.parseDouble(informationCategories[count][1])/100;
-            double values = sum * margin;
-            totalProfitFromEachGame[count][count] = informationSales[0][4];
-            totalProfitFromEachGame[count][count + 1] = values;
-            count++;
-            sum = 0.0;
-        }
-
-        for(int i = 0; i < totalForCategories.length; i++){
-            System.out.println("Categoria: "+totalForCategories[i]+"| VALOR: "+ valuesTotalMarginOfCategories[i]);
-            sum += valuesTotalMarginOfCategories[i];
-
-        }*/
-            count++;
-            sum = 0.0;
-
-        }
-
-        for(int i = 0; i < totalProfitFromEachGame.length; i++){
-            for(int k = 0; k < totalProfitFromEachGame[i].length; k++ ){
-                System.out.println(totalProfitFromEachGame[i][0]);
-            }
-        }
 
     }
-
-
-
-
 }
