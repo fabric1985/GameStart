@@ -2,13 +2,14 @@ package admin;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
 import java.util.Scanner;
-import java.util.function.DoubleToIntFunction;
 
-import static admin.Menu_Admin.*;
+import static admin.MenuAdmin.*;
+import static db.Categories.*;
+import static db.Clients.*;
+import static db.Sales.*;
 
-public class Functions_Admin {
+public class FunctionsAdmin {
     /*----> Function that validates the administrator login <----*/
     public static void loginAdmin(String user, String password) throws FileNotFoundException {
 
@@ -54,7 +55,7 @@ public class Functions_Admin {
                     System.out.println("=======================================================");
                     System.out.println();
                     try {
-                        printInformationFile(informationFile("catalogue/GameStart_Vendas.csv"));
+                        printInformationFile(readSales());
                     } catch (FileNotFoundException e) {
                         throw new RuntimeException(e);
                     }
@@ -65,7 +66,7 @@ public class Functions_Admin {
                     System.out.println("=======================================================");
                     System.out.println();
                     try {
-                        printInformationFile(informationFile("catalogue/GameStart_Clientes.csv"));
+                        printInformationFile(readClients());
                     } catch (FileNotFoundException e) {
                         throw new RuntimeException(e);
                     }
@@ -76,7 +77,7 @@ public class Functions_Admin {
                     System.out.println("=======================================================");
                     System.out.println();
                     try {
-                        printInformationFile(informationFile("catalogue/GameStart_Categorias.csv"));
+                        printInformationFile(readCategories());
                     } catch (FileNotFoundException e) {
                         throw new RuntimeException(e);
                     }
@@ -92,48 +93,7 @@ public class Functions_Admin {
 
     }
 
-    /*----> Function that counts the line number of the file to be
-            able to manipulate it in a multidimensional array<----*/
-    public static int countLines(String path) throws FileNotFoundException {
 
-        Scanner readFile = new Scanner(new File(path));
-        int count = 0;
-        while (readFile.hasNextLine()) {
-            String line = readFile.nextLine();
-            count++;
-        }
-        return count;
-
-    }
-
-    /*----> Function that manipulates the file and converts it to a
-            multidimensional array<----*/
-    public static String[][] informationFile(String path) throws FileNotFoundException {
-
-        int lines = countLines(path);
-
-        Scanner readFile = new Scanner(new File(path));
-        String header = readFile.nextLine();
-
-        int cols = header.split(";").length;
-
-        String[][] matrixFileInformation = new String[lines-1][cols];
-        String line;
-        int counter = 0;
-
-        while (readFile.hasNextLine()) {
-            line = readFile.nextLine();
-            String[] lineItems = line.split(";");
-
-            for(int k = 0; k < cols; k++) {
-                matrixFileInformation[counter][k] = lineItems[k];
-            }
-            counter++;
-
-        }
-
-        return matrixFileInformation;
-    }
 
     /*----> Function that only prints the file <----*/
     public static void printInformationFile(String[][] matrixFileInformation){
@@ -147,9 +107,9 @@ public class Functions_Admin {
 
     }
 
-    public static void salesInformation(String path) throws FileNotFoundException {
+    public static void salesInformation() throws FileNotFoundException {
 
-        String[][] information = informationFile(path);
+        String[][] information = readSales();
 
         int count = 0;
         double sum = 0.0;
@@ -162,13 +122,12 @@ public class Functions_Admin {
         System.out.println();
         System.out.println(count+" sales were made.");
         System.out.println("The total sales value was $"+sum);
-
     }
 
-    public static void totalProfit(String path1, String path2 ) throws FileNotFoundException {
+    public static void totalProfit() throws FileNotFoundException {
 
-        String[][] informationSales = informationFile(path1);
-        String[][] informationCategories = informationFile(path2);
+        String[][] informationSales = readSales();
+        String[][] informationCategories = readCategories();
 
         String [] totalForCategories = new String[informationCategories.length];
         double [] valuesTotalMarginOfCategories = new double[informationCategories.length];
@@ -176,10 +135,10 @@ public class Functions_Admin {
         int count = 0;
 
 
-        /*Loop coloca as categorias num array*/
+        /*This loop puts the categories in an array*/
         for (int i = 0; i < informationCategories.length; i++) {
             totalForCategories[i] = informationCategories[i][0];
-            }
+        }
 
         while(count < totalForCategories.length){
 
@@ -195,12 +154,62 @@ public class Functions_Admin {
             sum = 0.0;
         }
 
-        /*Os dados do array totalForCategories e valuesTotalMarginOfCategories, estão ligados pelo index*/
+        /*The dates of  array totalForCategories and valuesTotalMarginOfCategories, are connected by index*/
         for(int i = 0; i < totalForCategories.length; i++){
             System.out.println("Categoria: "+totalForCategories[i]+"| VALOR: "+ valuesTotalMarginOfCategories[i]);
+            sum += valuesTotalMarginOfCategories[i];
+
         }
+        System.out.println("=======================================================");
+        System.out.println("The total profit based on the appropriate percentages was $"+sum);
+        System.out.println("=======================================================");
 
     }
 
+    public static void customerSearch() throws FileNotFoundException {
+
+        Scanner input = new Scanner(System.in);
+        int search;
+
+        System.out.println("Enter the number for search by idClient: ");
+        search = input.nextInt();
+
+        String[] client = getClientByID(search);
+
+        if (client[0] == null) {
+            System.out.println("Could not find client with that ID");
+        } else {
+            System.out.println("ID: "+ client[0] + "\t|\t");
+            System.out.println("Name: "+client[1] + "\t|\t");
+            System.out.println("Cellphone:: "+client[2] + "\t|\t");
+            System.out.println("Email: "+client[3] + "\t|\t");
+        }
+    }
+
+    public static void mostExpensiveGame() throws FileNotFoundException {
+        String[][] salesInformation = readSales();
+        double moreExpensive = 0.0;
+        String nameGameMoreExpensive = "";
+
+        for (int i = 0; i < salesInformation.length; i++) {
+            double price = Double.parseDouble(salesInformation[i][5]);
+            if(price > moreExpensive){
+                moreExpensive = price;
+                nameGameMoreExpensive = salesInformation[i][4];
+            }
+        }
+
+        System.out.println("The most expensive is: "+nameGameMoreExpensive);
+
+        for (int i = 0; i < salesInformation.length; i++) {
+            double price = Double.parseDouble(salesInformation[i][5]);
+            if(price == moreExpensive){
+                int clientID = Integer.parseInt(salesInformation[i][1]);
+
+                String[] client = getClientByID(clientID);
+                System.out.println("Name: "+client[1]);
+            }
+        }
+    }
 
 }

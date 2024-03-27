@@ -3,9 +3,9 @@ package admin;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-import static admin.Functions_Admin.*;
+import static admin.FunctionsAdmin.*;
 
-public class Menu_Admin {
+public class MenuAdmin {
     public static void menuAdmin(){
 
         Scanner input = new Scanner(System.in);
@@ -39,7 +39,7 @@ public class Menu_Admin {
                 case 2 :
                     System.out.println("Sales Amount");
                     try {
-                        salesInformation("catalogue/GameStart_Vendas.csv");
+                        salesInformation();
                     } catch (FileNotFoundException e) {
                         throw new RuntimeException(e);
                     }
@@ -47,16 +47,26 @@ public class Menu_Admin {
                 case 3:
                     System.out.println("Total Profit");
                     try {
-                        totalProfit("catalogue/GameStart_Vendas.csv", "catalogue/GameStart_Categorias.csv");
+                        totalProfit();
                     } catch (FileNotFoundException e) {
                         throw new RuntimeException(e);
                     }
                     break;
                 case 4:
                     System.out.println("Customer Search");
+                    try {
+                        customerSearch();
+                    } catch (FileNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
                 case 5:
                     System.out.println("Most Expensive Game");
+                    try {
+                        mostExpensiveGame();
+                    } catch (FileNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
                 case 6:
                     System.out.println("Best Customers");

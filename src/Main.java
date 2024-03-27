@@ -1,7 +1,7 @@
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-import static admin.Functions_Admin.loginAdmin;
+import static admin.FunctionsAdmin.loginAdmin;
 import static client.NewUser.*;
 
 public class Main {
