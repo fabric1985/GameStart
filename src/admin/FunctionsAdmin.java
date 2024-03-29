@@ -2,7 +2,6 @@ package admin;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 import static admin.MenuAdmin.*;
@@ -346,10 +345,21 @@ public class FunctionsAdmin {
     }
 
     public static void top5Games() throws FileNotFoundException {
+        String[][] gamesSorted = sortGamesByProfit();
 
-        String[] games = getGames();
+        int iterator = 1;
+        for(int i = gamesSorted.length-1; i > gamesSorted.length-6; i--){
+            System.out.println(iterator+") - "+gamesSorted[i][0]+" : "+gamesSorted[i][1]);
+            iterator++;
+        }
+    }
 
+    public static void bottom5Games() throws FileNotFoundException {
+        String[][] gamesSorted = sortGamesByProfit();
 
+        for (int i = 0; i < 5; i++){
+            System.out.println((i+1)+") - "+gamesSorted[i][0]+" : "+gamesSorted[i][1]);
+        }
 
     }
 }

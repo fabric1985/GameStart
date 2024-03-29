@@ -2,6 +2,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 import static admin.FunctionsAdmin.loginAdmin;
+import static client.MenuClient.menuClient;
 import static client.NewUser.*;
 
 public class Main {
@@ -37,8 +38,7 @@ public class Main {
                         newUser();
                         break;
                     }
-                    System.out.println("Menu user ");
-                    /*Create a function to go to the customers menu*/
+                    menuClient();
 
                     break;
                 case 2:

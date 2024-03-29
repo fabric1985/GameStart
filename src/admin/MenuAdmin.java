@@ -102,6 +102,11 @@ public class MenuAdmin {
                     break;
                 case 10:
                     System.out.println("Bottom 5 Games");
+                    try {
+                        bottom5Games();
+                    } catch (FileNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
                 case 11:
                     System.out.println("See you soon!");
