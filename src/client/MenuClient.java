@@ -47,15 +47,35 @@ public class MenuClient {
                     break;
                 case 3:
                     System.out.println("Graphic catalog");
+                    try {
+                        graphicCatalog();
+                    } catch (FileNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
                 case 4:
                     System.out.println("Publishers catalog");
+                    try {
+                        printPublisherCatalog();
+                    } catch (FileNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
                 case 5:
                     System.out.println("Category catalog");
+                    try {
+                        printCategoryCatalog();
+                    } catch (FileNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
                 case 6:
-                    System.out.println("Latest game");
+                    System.out.println("Latest game sold for the first time");
+                    try {
+                        latestGameSold();
+                    } catch (FileNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
                 case 7:
                     System.out.println("See you soon!");

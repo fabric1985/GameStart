@@ -1,9 +1,11 @@
 import java.io.FileNotFoundException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import static admin.FunctionsAdmin.loginAdmin;
 import static client.MenuClient.menuClient;
 import static client.NewUser.*;
+import static db.File.readFileGraphicCatalog;
 
 public class Main {
     public static void main(String[] args) {
@@ -21,7 +23,15 @@ public class Main {
             System.out.println("1 - User ");
             System.out.println("2 - Admin ");
             System.out.println("3 - Exit");
-            decision = input.nextInt();
+
+            try{
+                decision = input.nextInt();
+            } catch (InputMismatchException e) {
+                decision = -1;
+                input.nextLine();
+                System.out.println("Invalid option. Please enter a number.");
+                continue;
+            }
 
             switch (decision){
                 case 1:
@@ -58,17 +68,18 @@ public class Main {
                     }
                     break;
                 case 3:
-                    System.out.println("=======================================================");
-                    System.out.println("|       Thank you very much for visiting Game Start   |");
-                    System.out.println("=======================================================");
+                    try {
+                        readFileGraphicCatalog("catalogue/GameStart_Copyright.txt");
+                    } catch (FileNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
                 default:
                     System.out.println("Invalid option");
                     break;
-
             }
 
-        }while(decision!=3);
+        }while(decision != 3);
 
     }
 }
