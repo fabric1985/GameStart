@@ -2,6 +2,7 @@ package admin;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import static admin.MenuAdmin.*;
@@ -28,7 +29,7 @@ public class FunctionsAdmin {
             }
             }
         }
-        System.out.println("Invalid Login");
+        System.out.println("Invalid Login, try again");
     }
     /*----> Function that has the menu with file consultation options <----*/
     public static void fileConsultation(){
@@ -46,7 +47,15 @@ public class FunctionsAdmin {
             System.out.println("2 - Clients ");
             System.out.println("3 - Category");
             System.out.println("4 - Exit");
-            decision = input.nextInt();
+
+            try{
+                decision = input.nextInt();
+            } catch (InputMismatchException e) {
+                decision = -1;
+                input.nextLine();
+                System.out.println("Invalid option. Please enter a number.");
+                continue;
+            }
 
             switch (decision){
                 case 1:

@@ -1,6 +1,7 @@
 package db;
 
 import java.io.FileNotFoundException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class File {
@@ -67,7 +68,14 @@ public class File {
             System.out.println("6 - Witcher 3: Wild Hunt");
             System.out.println("7 - Minecraft");
             System.out.println("8 - Exit");
-            decision = input.nextInt();
+            try{
+                decision = input.nextInt();
+            } catch (InputMismatchException e) {
+                decision = -1;
+                input.nextLine();
+                System.out.println("Invalid option. Please enter a number.");
+                continue;
+            }
 
             switch (decision){
                 case 1:

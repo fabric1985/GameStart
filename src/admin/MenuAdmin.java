@@ -1,6 +1,7 @@
 package admin;
 
 import java.io.FileNotFoundException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import static admin.FunctionsAdmin.*;
@@ -29,7 +30,15 @@ public class MenuAdmin {
             System.out.println("9 - Top 5 Games");
             System.out.println("10 - Bottom 5 Games");
             System.out.println("11 - Exit");
-            decision = input.nextInt();
+
+            try {
+                decision = input.nextInt();
+            }catch (InputMismatchException e) {
+                decision = -1;
+                input.nextLine();
+                System.out.println("Invalid option. Please enter a number.");
+                continue;
+            }
 
             switch (decision){
                 case 1:

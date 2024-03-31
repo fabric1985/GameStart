@@ -42,14 +42,23 @@ public class Main {
                     System.out.println("Choose the option:");
                     System.out.println("1 - Already have a registration ");
                     System.out.println("2 - New user ");
-                    Scanner userLogin = new Scanner(System.in);
-                    int option = input.nextInt();
-                    if(option==2){
-                        newUser();
+
+                    int option;
+                    try{
+                        option = input.nextInt();
+                    } catch (InputMismatchException e) {
+                        input.nextLine();
+                        System.out.println("Invalid option. Please enter a number.");
                         break;
                     }
-                    menuClient();
 
+                    if(option==1){
+                        menuClient();
+                    } else if(option==2){
+                        newUser();
+                    } else {
+                        System.out.println("Invalid option");
+                    }
                     break;
                 case 2:
                     System.out.println("=======================================================");
@@ -57,10 +66,10 @@ public class Main {
                     System.out.println("=======================================================");
                     System.out.println("Enter your Username: ");
                     Scanner user = new Scanner(System.in);
-                    String username = input.next();
+                    String username = user.next();
                     Scanner pass = new Scanner(System.in);
                     System.out.println("Enter your Password: ");
-                    String password = input.next();
+                    String password = pass.next();
                     try {
                         loginAdmin(username,password);
                     } catch (FileNotFoundException e) {
